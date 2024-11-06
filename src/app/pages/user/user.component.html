@@ -1,0 +1,40 @@
+<div nz-flex nzVertical="false" nzJustify="space-between">
+    <nz-breadcrumb>
+        <nz-breadcrumb-item>Dashboard</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Quản lý KH</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Danh sách</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <button nz-button nzType="primary">Thêm mới KH</button>
+</div>
+<br>
+<nz-table #basicTable [nzData]="listOfData" [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize"
+    [nzPageIndex]="pageIndex" nzFrontPagination="false" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Họ tên</th>
+            <th>Ngày tạo</th>
+            <th>Ngày sửa</th>
+            <th>Người tạo</th>
+            <th>Người sửa</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (data of basicTable.data; track data) {
+        <tr>
+            <td>{{ data.id }}</td>
+            <td>{{ data.username }}</td>
+            <td>{{ data.createdAt }}</td>
+            <td>{{ data.createBy }}</td>
+            <td>{{ data.updatedAt }}</td>
+            <td>{{ data.updateBy }}</td>
+            <td>
+                <a>Sửa</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a>Xóa</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</nz-table>
