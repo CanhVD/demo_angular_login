@@ -4,7 +4,7 @@
         <nz-breadcrumb-item>Quản lý KH</nz-breadcrumb-item>
         <nz-breadcrumb-item>Danh sách</nz-breadcrumb-item>
     </nz-breadcrumb>
-    <button nz-button nzType="primary">Thêm mới KH</button>
+    <button nz-button nzType="primary" (click)="displayForm(null)">Thêm mới KH</button>
 </div>
 <br>
 <nz-table #basicTable [nzData]="listOfData" [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize"
@@ -30,11 +30,13 @@
             <td>{{ data.updatedAt }}</td>
             <td>{{ data.updateBy }}</td>
             <td>
-                <a>Sửa</a>
+                <button nz-button nzType="default" (click)="displayForm(data)">Sửa</button>
                 <nz-divider nzType="vertical"></nz-divider>
-                <a>Xóa</a>
+                <button nz-button nzType="default">Xóa</button>
             </td>
         </tr>
         }
     </tbody>
 </nz-table>
+<app-create-user [user]="user" *ngIf="isVisibleCreate" [title]="title"
+    (closeModal)="closeModal($event)"></app-create-user>

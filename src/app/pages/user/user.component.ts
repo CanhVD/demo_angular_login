@@ -8,12 +8,13 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiResponse } from '../../responses/apiResponse';
-import { log } from 'ng-zorro-antd/core/logger';
+import { CreateComponent } from './create/create.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [NzTableModule, NzDividerModule, NzBreadCrumbModule, NzButtonModule, NzFlexModule],
+  imports: [NzTableModule, NzDividerModule, NzBreadCrumbModule, NzButtonModule, NzFlexModule, CreateComponent, NgIf],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -22,6 +23,17 @@ export class UserComponent implements OnInit {
   loading = true;
   pageSize = 10;
   pageIndex = 1;
+  isVisibleCreate = false;
+  title = ''
+  user: User = {
+    id: 0,
+    username: '',
+    password: '',
+    createdAt: new Date,
+    createBy: '',
+    updatedAt: new Date,
+    updateBy: ''
+  }
   listOfData: User[] = [];
 
   userService: UserService = inject(UserService);
@@ -50,5 +62,30 @@ export class UserComponent implements OnInit {
     console.log(params);
     const { pageSize, pageIndex } = params;
     this.getUsers(pageIndex, pageSize);
+  }
+
+  closeModal(isVisible: boolean): void {
+    this.isVisibleCreate = isVisible;
+    console.log('ok')
+  }
+
+  displayForm(user: User | null) {
+    if (user) {
+      this.title = 'Sửa thông tin khách hàng'
+      this.user = user;
+    }
+    else {
+      this.title = 'Thêm mới khách hàng'
+      this.user = {
+        id: 0,
+        username: '',
+        password: '',
+        createdAt: new Date,
+        createBy: '',
+        updatedAt: new Date,
+        updateBy: ''
+      }
+    }
+    this.isVisibleCreate = true;
   }
 }

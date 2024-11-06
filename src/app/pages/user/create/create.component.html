@@ -1,1 +1,24 @@
-<p>create works!</p>
+<nz-modal nzVisible="true" [nzTitle]="title" (nzOnCancel)="close()" (nzOnOk)="handleOk()" nzFooter=" ">
+    <ng-container *nzModalContent>
+        <form nz-form #form="ngForm" (ngSubmit)="onSubmit(form)">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="username" nzRequired>Tên KH</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
+                    <input nz-input type="text" id="username" name="username" [(ngModel)]="user.username" required />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+                    <input nz-input type="password" id="password" name="password" [(ngModel)]="user.password"
+                        required />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-row class="register-area">
+                <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <button nz-button nzType="primary">Submit</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>
