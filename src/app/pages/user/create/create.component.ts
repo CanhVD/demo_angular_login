@@ -8,11 +8,12 @@ import { UserService } from '../../../services/user.service';
 import { ApiResponse } from '../../../responses/apiResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../../models/user';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [NzModalModule, FormsModule, NzFormModule, NzInputModule],
+  imports: [NzModalModule, FormsModule, NzFormModule, NzInputModule, NgIf],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss'
 })
@@ -23,6 +24,7 @@ export class CreateComponent implements OnInit {
     id: 0,
     username: '',
     password: '',
+    email: '',
     createdAt: new Date,
     createBy: '',
     updatedAt: new Date,
@@ -30,6 +32,8 @@ export class CreateComponent implements OnInit {
   }
 
   @Output() closeModal = new EventEmitter<boolean>();
+
+  @Output() loadUsers = new EventEmitter<void>();
 
   userService: UserService = inject(UserService);
 
@@ -47,19 +51,39 @@ export class CreateComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     if (form.valid) {
-      console.log('Form Submitted:', form.value);
-      this.userService.addUser(form.value).subscribe({
-        next: (apiResponse: ApiResponse) => {
-          alert('Thêm mới khách hàng thành công')
-          this.closeModal.emit(false);
-        },
-        complete: () => {
-        },
-        error: (error: HttpErrorResponse) => {
-          alert('Thêm mới khách hàng thất bại')
-          this.closeModal.emit(false);
-        }
-      })
+      this.user.id ? this.handleUpdateUser({ id: this.user.id, ...form.value }) : this.handleAddUser(form.value)
     }
+  }
+
+  handleAddUser(value: any): void {
+    this.userService.addUser(value).subscribe({
+      next: (apiResponse: ApiResponse) => {
+        alert('Thêm mới khách hàng thành công')
+        this.loadUsers.emit()
+        this.closeModal.emit(false);
+      },
+      complete: () => {
+      },
+      error: (error: HttpErrorResponse) => {
+        alert('Thêm mới khách hàng thất bại')
+        this.closeModal.emit(false);
+      }
+    })
+  }
+
+  handleUpdateUser(value: any): void {
+    this.userService.updateUser(value).subscribe({
+      next: (apiResponse: ApiResponse) => {
+        alert('Chỉnh sửa khách hàng thành công')
+        this.loadUsers.emit()
+        this.closeModal.emit(false);
+      },
+      complete: () => {
+      },
+      error: (error: HttpErrorResponse) => {
+        alert('Chỉnh sửa khách hàng thất bại')
+        this.closeModal.emit(false);
+      }
+    })
   }
 }

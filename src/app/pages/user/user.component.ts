@@ -10,24 +10,30 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApiResponse } from '../../responses/apiResponse';
 import { CreateComponent } from './create/create.component';
 import { NgIf } from '@angular/common';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [NzTableModule, NzDividerModule, NzBreadCrumbModule, NzButtonModule, NzFlexModule, CreateComponent, NgIf],
+  imports: [
+    NzTableModule, NzDividerModule, NzBreadCrumbModule,
+    NzButtonModule, NzFlexModule, CreateComponent, NgIf, DeleteUserComponent
+  ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit {
+  title = ''
   total = 0;
   loading = true;
   pageSize = 10;
   pageIndex = 1;
   isVisibleCreate = false;
-  title = ''
+  isVisibleDelete = false;
   user: User = {
     id: 0,
     username: '',
+    email: '',
     password: '',
     createdAt: new Date,
     createBy: '',
@@ -39,6 +45,12 @@ export class UserComponent implements OnInit {
   userService: UserService = inject(UserService);
 
   ngOnInit(): void {
+    this.loadUsers()
+  }
+
+  loadUsers(): void {
+    this.pageIndex = 1;
+    this.pageSize = 10;
     this.getUsers(this.pageIndex, this.pageSize)
   }
 
@@ -52,8 +64,11 @@ export class UserComponent implements OnInit {
       complete: () => {
       },
       error: (error: HttpErrorResponse) => {
-        alert('get data fail')
-        console.log(error);
+        if (error.status === 401) {
+          alert('Bạn không có quyền truy cập')
+          return;
+        }
+        alert('Get data fail')
       }
     });
   }
@@ -79,6 +94,7 @@ export class UserComponent implements OnInit {
       this.user = {
         id: 0,
         username: '',
+        email: '',
         password: '',
         createdAt: new Date,
         createBy: '',
@@ -86,6 +102,13 @@ export class UserComponent implements OnInit {
         updateBy: ''
       }
     }
-    this.isVisibleCreate = true;
+    this.isVisibleCreate = true
+  }
+
+  handleDelete(user: User | null) {
+    if (user) {
+      this.user = user;
+    }
+    this.isVisibleDelete = !this.isVisibleDelete;
   }
 }

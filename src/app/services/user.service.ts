@@ -22,6 +22,14 @@ export class UserService {
   addUser(user: User): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${environment.apiBaseUrl}/users`, user);
   }
+
+  updateUser(user: User): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${environment.apiBaseUrl}/users/${user.id}`, user);
+  }
+
+  deleteUser(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${environment.apiBaseUrl}/users/${id}`);
+  }
 }
 
 

@@ -13,6 +13,7 @@
         <tr>
             <th>ID</th>
             <th>Họ tên</th>
+            <th>Email</th>
             <th>Ngày tạo</th>
             <th>Ngày sửa</th>
             <th>Người tạo</th>
@@ -25,18 +26,23 @@
         <tr>
             <td>{{ data.id }}</td>
             <td>{{ data.username }}</td>
+            <td>{{ data.email }}</td>
             <td>{{ data.createdAt }}</td>
-            <td>{{ data.createBy }}</td>
             <td>{{ data.updatedAt }}</td>
+            <td>{{ data.createBy }}</td>
             <td>{{ data.updateBy }}</td>
             <td>
                 <button nz-button nzType="default" (click)="displayForm(data)">Sửa</button>
                 <nz-divider nzType="vertical"></nz-divider>
-                <button nz-button nzType="default">Xóa</button>
+                <button nz-button nzType="default" (click)="handleDelete(data)">Xóa</button>
             </td>
         </tr>
         }
     </tbody>
 </nz-table>
-<app-create-user [user]="user" *ngIf="isVisibleCreate" [title]="title"
-    (closeModal)="closeModal($event)"></app-create-user>
+
+<app-create-user [user]="user" *ngIf="isVisibleCreate" [title]="title" (closeModal)="closeModal($event)"
+    (loadUsers)="loadUsers()"></app-create-user>
+
+<app-delete-user *ngIf="isVisibleDelete" (handleDelete)="handleDelete(null)" [user]="user"
+    (loadUsers)="loadUsers()"></app-delete-user>
