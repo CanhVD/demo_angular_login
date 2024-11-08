@@ -10,7 +10,6 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './interceptors/token.interceptor';
 import { tokensInterceptor } from './interceptors/tokens.interceptor';
 
 registerLocaleData(en);
