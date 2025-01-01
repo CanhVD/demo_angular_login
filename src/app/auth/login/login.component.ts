@@ -33,8 +33,10 @@ export class LoginComponent {
   onSubmit(formLogin: NgForm) {
     this.authService.login(formLogin.value).subscribe({
       next: (apiResponse: ApiResponse) => {
-        debugger
-        alert('Đăng nhập thành công')
+        if (apiResponse.code) {
+          alert('Tài khoản hoặc mật khẩu không chính xác')
+          return
+        }
         this.tokenService.setToken(apiResponse.data.access_token)
         this.router.navigate(['/user']);
       },

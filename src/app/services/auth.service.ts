@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(user: UserRequest): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${environment.apiBaseUrl}/users/login`, user);
+  login(request: UserRequest): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${environment.apiBaseUrl}/login`, request);
   }
 }
