@@ -33,7 +33,7 @@ export class DeleteUserComponent {
 
   handleOk(): void {
     this.userService.deleteUser(this.user.id).subscribe({
-      next: (apiResponse: ApiResponse) => {
+      next: (apiResponse: ApiResponse<any>) => {
         alert('Xóa khách hàng thành công')
         this.loadUsers.emit()
         this.handleDelete.emit();

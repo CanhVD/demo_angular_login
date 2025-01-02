@@ -11,6 +11,7 @@ import { ApiResponse } from '../../responses/apiResponse';
 import { CreateComponent } from './create/create.component';
 import { NgIf } from '@angular/common';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
+import { UserPageResponse  } from '../../responses/userPageRespones';
 
 @Component({
   selector: 'app-user',
@@ -56,7 +57,7 @@ export class UserComponent implements OnInit {
 
   getUsers(page: number, limit: number): void {
     this.userService.getUsers(page, limit).subscribe({
-      next: (apiResponse: ApiResponse) => {
+      next: (apiResponse: ApiResponse<UserPageResponse >) => {
         this.listOfData = apiResponse.data.result;
         this.total = apiResponse.data.total
         this.loading = false
@@ -65,10 +66,9 @@ export class UserComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401) {
-          alert('Bạn không có quyền truy cập')
           return;
         }
-        alert('Get data fail')
+        alert('Lỗi hệ thống: ' + error.message)
       }
     });
   }

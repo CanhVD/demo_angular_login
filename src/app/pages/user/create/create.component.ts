@@ -1,7 +1,6 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { UserRequest } from '../../../requests/userRequest';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { UserService } from '../../../services/user.service';
@@ -57,12 +56,15 @@ export class CreateComponent implements OnInit {
 
   handleAddUser(value: any): void {
     this.userService.addUser(value).subscribe({
-      next: (apiResponse: ApiResponse) => {
+      next: (apiResponse: ApiResponse<User>) => {
+        if (apiResponse.code) {
+          alert('Thêm mới khách hàng thất bại')
+          return
+        }
+
         alert('Thêm mới khách hàng thành công')
         this.loadUsers.emit()
         this.closeModal.emit(false);
-      },
-      complete: () => {
       },
       error: (error: HttpErrorResponse) => {
         alert('Thêm mới khách hàng thất bại')
@@ -73,12 +75,15 @@ export class CreateComponent implements OnInit {
 
   handleUpdateUser(value: any): void {
     this.userService.updateUser(value).subscribe({
-      next: (apiResponse: ApiResponse) => {
+      next: (apiResponse: ApiResponse<User>) => {
+        if (apiResponse.code) {
+          alert('Chỉnh sửa khách hàng thất bại')
+          return
+        }
+        
         alert('Chỉnh sửa khách hàng thành công')
         this.loadUsers.emit()
         this.closeModal.emit(false);
-      },
-      complete: () => {
       },
       error: (error: HttpErrorResponse) => {
         alert('Chỉnh sửa khách hàng thất bại')

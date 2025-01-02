@@ -7,6 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class TokenService {
     private readonly TOKEN_KEY = 'access_token';
+    private readonly REFRESH_TOKEN_KEY = 'refresh_token';
     private jwtHelperService = new JwtHelperService();
     localStorage?: Storage;
 
@@ -21,6 +22,14 @@ export class TokenService {
 
     setToken(token: string): void {
         this.localStorage?.setItem(this.TOKEN_KEY, token);
+    }
+
+    getRefreshToken(): string {
+        return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? '';
+    }
+    
+    setRefreshToken(refreshToken: string): void {
+        localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
     }
 
     getUser(): string {

@@ -18,10 +18,9 @@ export class AuthGuard {
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const isTokenExpired = this.tokenService.isTokenExpired();
     const isUserIdValid = this.tokenService.getUser();
     debugger
-    if (!isTokenExpired && isUserIdValid !== '') {
+    if (isUserIdValid !== '') {
       return true;
     } else {
       // Nếu không token
