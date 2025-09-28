@@ -1,24 +1,26 @@
 <div style="background: black !important;">
-    <nz-modal nzVisible="true" nzTitle="Login" nzFooter=" ">
+    <nz-modal nzVisible="true" nzTitle="Login" nzFooter=" " [nzWidth]="400">
         <ng-container *nzModalContent>
             <form nz-form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)">
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="username" nzRequired>Username</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your username!">
                         <input nz-input type="text" id="username" name="username" [(ngModel)]="user.username"
-                            required />
+                            placeholder="Enter your username" required />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
                         <input nz-input type="password" id="password" name="password" [(ngModel)]="user.password"
-                            required />
+                            placeholder="Enter your password" required />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item nz-row class="register-area">
                     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                        <button class="btn-primary" nz-button nzType="primary">Submit</button>
+                        <button class="btn-primary" nz-button nzType="primary" [nzLoading]="isSubmitting">
+                            Submit
+                        </button>
                     </nz-form-control>
                 </nz-form-item>
             </form>

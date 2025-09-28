@@ -8,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-
+  constructor() {
+    // Initialization logic can go here
+  }
+  ngOnInit() {
+    // Logic to be executed when the component is initialized
+    console.log('Dashboard component initialized');
+  }
 }
